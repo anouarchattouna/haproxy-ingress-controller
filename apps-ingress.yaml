@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: apps
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - sslexample.foo.bar.com
+    secretName: tls-secret
+  rules:
+  - host: sslexample.foo.bar.com
+    http:
+      paths:
+      - path: /appone
+        backend:
+          serviceName: echoserver
+          servicePort: 8080
+      - path: /apptwo
+        backend:
+          serviceName: http-echo
+          servicePort: 5678
+      - path: /
+        backend:
+          serviceName: ingress-default-backend
+          servicePort: 8080
